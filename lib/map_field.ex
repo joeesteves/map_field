@@ -19,11 +19,15 @@ defmodule MapField do
     quote do
       defp unquote(field)(changeset) do
         changeset
-        |> upsert_settings
-        |> populate_settings
+        |> yield(unquote(upsert_function_name))
+        |> yield(unquote(populate_function_name))
       end
 
-      defp unquote(populate_function_name)(changeset) do
+      defp yield(changeset, function) do
+        apply(__MODULE__, function, [changeset])
+      end
+
+      def unquote(populate_function_name)(changeset) do
         Enum.reduce(unquote(keys), changeset, fn field, changeset ->
           settings = get_field(changeset, :settings)
 
@@ -33,7 +37,7 @@ defmodule MapField do
         end)
       end
 
-      defp unquote(upsert_function_name)(changeset) do
+      def unquote(upsert_function_name)(changeset) do
         case unquote(keys) -- unquote(keys) -- Map.keys(changeset.changes) do
           [] ->
             changeset
