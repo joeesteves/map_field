@@ -7,7 +7,16 @@ defmodule MapField.MixProject do
       version: "0.1.0",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+
+      # Hex
+      description: "Provides functions to create a map field with virtual attributes and cast them with Ecto",
+      package: [
+        mainteiners: ["José Esteves"],
+        licenses: [""],
+        links: ["https://github.com/ponyesteves/map_field"]
+      ]
+
     ]
   end
 
